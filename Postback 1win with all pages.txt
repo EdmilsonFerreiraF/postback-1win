@@ -1,0 +1,281 @@
+///////////// all pages /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+function postback(uri, params){
+  // Captura os parâmetros da URL
+  var URLParams = new URLSearchParams(document.location.search);
+  // Faz log dos parâmetros
+  console.log("URLParams", URLParams);
+
+  // Seleciona o clickid dos parâmetros de URL
+  var click_id = parseInt(URLParams.get("click"), 10); // is the number 18
+  
+
+  // Seleciona o source dos parâmetros de URL
+  var source = URLParams.get("source");
+  // Faz log do source (para teste)
+  console.log("source", source);
+
+  // Define um cookie recebendo o seu nome (cname), seu valor (cvalue) e seu tempo de expiração em dias (exdays)
+  function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  // Busca um cookie pelo seu nome (cname)
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(";");
+
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+
+      while (c.charAt(0) == " ") {
+        c = c.substring(1);
+      }
+
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+
+    return "";
+  }
+
+  // Cria um cookie para click_id
+  setCookie("click_id", click_id, 10);
+
+  // Cria uma variável click_id_cookie vazia para posterior atribuição do clickid a ela
+  var click_id_cookie;
+
+  // Verifica se os cookies foram carregados
+  if (document.cookie) {
+    // Atribue o clickid dos cookies para a variável click_id_cookie
+    click_id_cookie = getCookie("click_id");
+  }
+  // Define o método da chamada
+  const method = "POST";
+  // Define os cabeçalhos da chamada
+  const headers = new Headers();
+
+  // Acrescenta o tipo de conteúdo da chamada aos cabeçalhos
+  headers.append("Content-Type", "application/json");
+  
+  // Corpo da chamada com o click id transformado em JSON
+  const body = JSON.stringify({...params, cid: click_id_cookie});
+
+    // Configurações da chamada
+  const options = {
+    method,
+    body,
+    headers,
+  };
+
+    // Realiza a chamada para o servidor de postback
+  fetch(`/wp-json/pixel/postback/${uri}`, options)
+    // Captura a resposta da chamada e faz log dela
+    .then((res) => {
+      console.log("res.data", res.data);
+    })
+    // Captura o erro da chamada, caso ocorra, e faz log dele
+    .catch((error) => {
+      console.log("Ocorreu um erro:", error);
+    });
+}
+</script>
+/////////////
+
+
+
+///////////// api/v2/links/list /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"links/list",
+{
+  token: "{{token}}",
+  p: "p",
+  rows: "rows"
+});
+</script>
+/////////////
+
+
+///////////// api/v2/links/info /////////////
+
+<script language="javascript" type="text/javascript">
+postback(
+"links/info",
+{
+  token: "{{token}}",
+  sources: ""
+});
+</script>
+/////////////
+
+
+///////////// api/v2/links/subpartner /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"links/subpartner",
+{
+  token: "{{token}}",
+  hash: "",
+  moderationStatus: ""
+});
+</script>
+/////////////
+
+
+///////////// api/v2/links/directs /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"links/directs",
+{
+  token: "{{token}}",
+   directs: "",
+   id: "",
+   domain: "",
+   name_ru: "",
+});
+</script>
+/////////////
+
+
+///////////// api/v2/links/available_countries /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"links/available_countries",
+{
+  token: "{{token}}"
+});
+
+</script>
+/////////////
+
+
+///////////// api/v2/links/country_domains /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"links/country_domains",
+{
+  token: "{{token}}",
+  country: "",
+  limit: "",
+});
+</script>
+/////////////
+
+
+///////////// api/v2/promo/list /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"promo/list",
+{
+token: "{{token}}",
+  p: "",
+  rows: "",
+  isHidden: "",
+});
+</script>
+/////////////
+
+
+///////////// api/v2/sources/list /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"sources/list",
+{
+token: "{{token}}",
+  p: ""
+});
+</script>
+/////////////
+
+
+///////////// api/v2/sources/search /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"sources/search",
+{
+  token: "{{token}}",
+  text: "",
+  hideDeleted: "",
+});
+</script>
+/////////////
+
+
+///////////// api/v2/stats_v2/all /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"stats_v2/all", {
+  token: "{{token}}"
+});
+
+</script>
+/////////////
+
+
+///////////// api/v2/stats_v2/days /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"stats_v2/days",
+{
+token: "{{token}}"
+});
+
+</script>
+/////////////
+
+
+///////////// api/v2/stats_v2/countries /////////////
+
+<script language="javascript" type="text/javascript">
+{/* // Função para chamada para o servidor de postback */}
+postback(
+"stats_v2/countries",
+{
+  token: "{{token}}"
+});
+
+</script>
+/////////////
+
+
+///////////// api/v2/stats_v2/subpartners /////////////
+
+<script language="javascript" type="text/javascript">
+postback(
+"stats_v2/subpartners",
+{
+  token: "{{token}}",
+  hash: "hash",
+  moderationStatus: "moderationStatus"
+});
+</script>
+/////////////
